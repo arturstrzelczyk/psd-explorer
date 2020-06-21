@@ -1,0 +1,66 @@
+@charset "utf-8";
+
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;font:400 2vmin/1.5 sans-serif;overflow:hidden;user-select:none;}
+
+footer{position:absolute;bottom:0;left:0;right:0;height:2rem;background:#dfeef5;margin:0;padding:0 1rem;line-height:2rem;color:#2d6f8e;}
+footer a{color:inherit;}
+
+body.file form.select-file{display:none;}
+body.loading form.select-file{filter:grayscale(1);pointer-events:none;}
+form.select-file{position:absolute;left:0;right:0;top:0;bottom:2rem;outline:1rem dashed #b5d5e4;outline-offset:-2.5rem;transition:.3s outline-color;z-index:2;background:#fff;}
+form.select-file.dropzone-active{outline-color:#48abda;}
+form.select-file input[type=file]{display:none;}
+form.select-file button{display:block;width:100%;height:100%;border:none;background:none;color:#b5d5e4;font-size:10rem;outline:none;transition:.3s color;padding:5rem;}
+form.select-file button:enabled{cursor:pointer;}
+form.select-file.dropzone-active button{color:#48abda;}
+
+body>aside{background:#f7f7f9;position:absolute;width:24%;left:0;top:0;bottom:2rem;display:flex;flex-direction:column;}
+body>main{background:#fff;position:absolute;width:76%;right:0;top:0;bottom:2rem;}
+
+body>aside header{flex:0 0 4rem;position:relative;}
+body>aside section.tree{flex:1 1 auto;position:relative;overflow:hidden;}
+body>aside section.info{flex:0 0 16rem;position:relative;}
+body>aside section.info.hidden{display:none;}
+
+body>aside section.info div.preview{margin:0 1rem;height:50%;position:relative;background-image: linear-gradient(45deg,#ccc 25%,transparent 25%),linear-gradient(-45deg,#ccc 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#ccc 75%),linear-gradient(-45deg,transparent 75%, #ccc 75%);background-size: 1rem 1rem;background-position:0 0, 0 .5rem, .5rem -.5rem, -.5rem 0;}
+body>aside section.info div.preview img{max-width:100%;max-height:100%;position:absolute;margin:auto;left:0;right:0;top:0;bottom:0;box-shadow:0 0 1rem #0000003f;}
+body>aside section.info div.preview button{position:absolute;right:0;height:1rem;bottom:-1rem;border:none;background:no-repeat;color:#aaa;}
+body>aside section.info div.preview button:enabled{cursor:pointer;}
+body>aside section.info div.preview button:disabled{display:none;}
+
+body>aside section.info div.preview+div{margin:0 1rem;height:50%;padding:.5rem 0;}
+
+main>img{position:absolute;max-width:calc(100% - 4rem);max-height:calc(100% - 4rem);margin:auto;left:0;right:0;top:0;bottom:0;box-shadow:0 0 2rem #0000004f;z-index:0;}
+main>svg{position:absolute;max-width:calc(100% - 4rem);max-height:calc(100% - 4rem);margin:auto;left:0;right:0;top:0;bottom:0;z-index:1;}
+
+ul.layers{margin:1em;padding:0;background:#fff;list-style-type:none;overflow:hidden auto;height:calc(100% - 2rem);}
+ul.layers ul{margin:0;padding:0;list-style-type:none;}
+ul.layers li{}
+ul.layers li.layer-hidden{color:#aaa;}
+ul.layers li>span{display:block;height:2rem;padding:.2rem .2rem .2rem 1rem;overflow:hidden;position:relative;line-height:1rem;font-size:.8rem;cursor:pointer;}
+/*ul.layers li>span:focus-within,ul.layers li>span:hover*/ul.layers li.active>span{background:#dfeef5;}
+
+ul.layers ul li>span{padding-left:2rem;}
+ul.layers ul ul li>span{padding-left:3rem;}
+ul.layers ul ul ul li>span{padding-left:4rem;}
+ul.layers ul ul ul ul li>span{padding-left:5rem;}
+ul.layers ul ul ul ul ul li>span{padding-left:6rem;}
+ul.layers ul ul ul ul ul ul li>span{padding-left:8rem;}
+ul.layers ul ul ul ul ul ul ul li>span{padding-left:9rem;}
+ul.layers ul ul ul ul ul ul ul ul li>span{padding-left:10rem;}
+
+ul.layers li>span strong{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+ul.layers li>span strong[data-type]::before{content:attr(data-type);display:inline-block;height:.8rem;width:.8rem;text-align:center;background:#d0e0ff;margin-right:.3em;color:#fff;border-radius:10%;font-size:80%;}
+ul.layers li>span p{margin:0;padding:0;font-size:.75rem;line-height:inherit;font-style:italic;height:1rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+ul.layers li>span p span+span::before{content:"•";margin:0 .3ex;}
+
+ul.layers li.collapsed ul{display:none;}
+
+button[name=collapse]{position:absolute;width:.8rem;height:.8rem;padding:0;margin-left:-1rem;border:1px dotted #555;background:none;color:#555;line-height:.8rem;}
+button[name=collapse]:enabled{cursor:pointer;}
+button[name=collapse]::before{content:"-";}
+li.collapsed button[name=collapse]::before{content:"+";}
+
+main svg.p{}
+main svg.p rect{fill:#48abda3f;stroke:#48abda;stroke-width:1;}

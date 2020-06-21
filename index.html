@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8"/>
+  <title>PSD file explorer</title>
+  <meta name="description" content="PSD file explorer in js"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no"/>
+  <meta name="author" content="Artur Strzelczyk"/>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+  <form class="select-file">
+    <input name="file" type="file" accept=".psd"/>
+    <button type="button" name="open">drag or open PSD file</button>
+  </form>
+  <aside>
+    <header></header>
+    <section class="tree"></section>
+    <section class="info">
+      <div class="preview">
+        <button disabled name="clipboard">copy to clipboard</button>
+      </div>
+      <div></div>
+    </section>
+  </aside>
+  <main>
+  </main>
+  <footer>PSD file explorer by <a href="https://asbb.beskidy.pl/about">asbb</a> using <a href="http://meltingice.github.io/psd.js/" target="_blank">meltingice/PSD.js</a> 2020</footer>
+  <script src="dist/psd.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
