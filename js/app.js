@@ -13,6 +13,30 @@ keyboard navigation
     var panel = document.querySelector("aside");
     const NS_SVG = "http://www.w3.org/2000/svg";
 
+    function colorToHex(r, g, b, a) {
+        function dh(n) {
+            !Number.isInteger(n) && (n = parseInt(n));
+            if (isNaN(n)) {
+                return "00";
+            } // if
+            else {
+                n = Math.min(255, Math.max(0, n));
+                return n.toString(16).padStart(2, "0");
+            }; // else
+        }; // function dh
+
+
+        var result = '#';
+        result += dh(r);
+        result += dh(g);
+        result += dh(b);
+
+        a = dh(a);
+        (a !== "ff") && (result += a);
+
+        return result;
+    }; // function colorToHex
+
     document.querySelectorAll("form.select-file").forEach(function (form) {
         form.open.addEventListener("submit", function (e) {
             e.preventDefault();
@@ -56,6 +80,7 @@ keyboard navigation
     function selectItem(li) {
         var svg = document.querySelector("main svg");
         var preview = document.querySelector("section.info div.preview");
+        var description = document.querySelector("section.info div.preview+div");
 
         // unselect
         if (svg) {
@@ -65,6 +90,9 @@ keyboard navigation
             [].slice.call(preview.querySelectorAll("img")).forEach((el) => el.remove());
             preview.querySelectorAll("button").forEach((el) => el.disabled = true);
         }; // if
+        if (description) {
+            while (description.firstChild) description.firstChild.remove();
+        }; // if
         document.querySelectorAll("ul.layers li.active").forEach((li) => li.classList.remove("active"));
 
         if (li && li.psdData) {
@@ -73,6 +101,49 @@ keyboard navigation
             console.log(psdData);
 
             window.pd = psdData;
+
+            if (description) {
+                var data = psdData.export();
+                if (data.text) {
+                    description.appendChild(document.createTextNode("{\n"));
+                    description.appendChild(document.createTextNode("  content:\""+data.text.value+"\";\n"));
+                    if (data.text.font) {
+                        description.appendChild(document.createTextNode("  font-family:\""+data.text.font.name+"\";\n"));
+                        data.text.font.colors.forEach(function (c) {
+                            var h = colorToHex(c[0], c[1], c[2], c[3]);
+                            description.appendChild(document.createTextNode("  color:"));
+                            var s = document.createElement("span");
+                            s.classList.add("color");
+                            s.style.background = h;
+                            description.appendChild(s);
+                            var s = document.createElement("span");
+                            s.classList.add("value");
+                            s.textContent = h;
+                            description.appendChild(s);
+                            description.appendChild(document.createTextNode(";\n"));
+                        });
+                        data.text.font.sizes.forEach(function (s) {
+                            description.appendChild(document.createTextNode("  font-size:"+s+"px;\n"));
+                        });
+                        data.text.font.alignment.forEach(function (a) {
+                            description.appendChild(document.createTextNode("  text-align:"+a+";\n"));
+                        });
+                    }; // if
+                    description.appendChild(document.createTextNode("}"));
+                }; // if
+            }; // if
+
+            /*
+                        var data = el.export();
+                        if (data.text && data.text.value) {
+                            li.classList.add("layer-text");
+                        }; // if
+                        if (data.text && data.text.value && data.text.value != el.name) {
+                            var str = document.createElement("span");
+                            str.textContent = data.text.value;
+                            l2.appendChild(str);
+                        }; // if
+*/
 
             if (svg) {
                 var r = document.createElementNS(NS_SVG, "rect");
@@ -153,6 +224,21 @@ keyboard navigation
 
                     var l2 = document.createElement("p");
                     s.appendChild(l2);
+
+                    try {
+                        var data = el.export();
+                        if (data.text && data.text.value) {
+                            li.classList.add("layer-text");
+                        }; // if
+                        if (data.text && data.text.value && data.text.value != el.name) {
+                            var str = document.createElement("span");
+                            str.textContent = data.text.value;
+                            l2.appendChild(str);
+                        }; // if
+                    } // try
+                    catch (e) {
+                        console.log(e);
+                    }; // catch
 
                     var str = document.createElement("span");
                     str.textContent = el.width + "×" + el.height;
